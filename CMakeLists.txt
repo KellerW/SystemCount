@@ -13,12 +13,23 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_C_FLAGS_DEBUG "-g3 -O0 -fno-omit-frame-pointer" CACHE STRING "" FORCE)
-set(CMAKE_C_FLAGS_RELEASE "-O3 -DNDEBUG" CACHE STRING "" FORCE)
+#set(CMAKE_C_FLAGS_RELEASE "-O3 -DNDEBUG" CACHE STRING "" FORCE)
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -march=native")
 
 add_executable(${EXECUTABLE_NAME}
     src/main.c
     src/cmdline.c
+    src/error.c
+    src/log.c
+    src/json_parser.c
+    src/model_counter.c
+    src/arena_alloc.c
 )
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(YAJL REQUIRED yajl)
+target_include_directories(${EXECUTABLE_NAME} PRIVATE ${YAJL_INCLUDE_DIRS})
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE ${YAJL_LIB})
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GLIB REQUIRED glib-2.0)
@@ -39,3 +50,4 @@ endif()
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3")
