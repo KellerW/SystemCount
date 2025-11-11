@@ -12,16 +12,15 @@ static void print_usage(const char *progname)
   }
 
   fprintf(stderr,
-          "Uso: %s -i <input> [-o <output>] [-v] [-h]\n"
+          "Uso: %s -i <input> [-v] [-h]\n"
           "\n"
-          "  -i <input>   ficheiro de entrada (obrigatório)\n"
-          "  -o <output>  ficheiro de saída (opcional)\n"
-          "  -v           modo verboso\n"
-          "  -h           mostra esta ajuda\n",
+          "  -i <input>   input file\n"
+          "  -v           Verbose Mode\n"
+          "  -h           Help\n",
           progname);
 }
 
-int parse_command_line(int argc, char *argv[], struct CommandLine *cl)
+int parse_command_line(int32_t argc, char *argv[], struct CommandLine *cl)
 {
   int32_t opt;
 
@@ -30,30 +29,17 @@ int parse_command_line(int argc, char *argv[], struct CommandLine *cl)
     return -1;
   }
 
-  /* Inicializa a struct */
   cl->input_file = NULL;
-  cl->output_file = NULL;
   cl->verbose = 0;
   cl->show_help = 0;
   cl->first_arg_index = 0;
 
-  /* Loop de parsing com getopt.
-     String "i:o:vh" significa:
-       i:  -> -i precisa de argumento
-       o:  -> -o precisa de argumento
-       v   -> flag sem argumento
-       h   -> flag sem argumento
-  */
   while ((opt = getopt(argc, argv, "i:o:vh")) != -1)
   {
     switch (opt)
     {
     case 'i':
       cl->input_file = optarg;
-      break;
-
-    case 'o':
-      cl->output_file = optarg;
       break;
 
     case 'v':
@@ -69,20 +55,17 @@ int parse_command_line(int argc, char *argv[], struct CommandLine *cl)
       return -1;
     }
   }
-
-  /* guarda onde começam os argumentos não-opção */
+  
   cl->first_arg_index = optind;
 
-  /* Se o user pediu help, não obriga -i */
   if (cl->show_help)
   {
     return 0;
   }
 
-  /* Validação básica: -i é obrigatório */
   if (cl->input_file == NULL)
   {
-    fprintf(stderr, "Erro: falta o parâmetro -i <input>\n\n");
+    fprintf(stderr, "Error: Missing parameter -i <input>\n\n");
     print_usage(argv[0]);
     return -1;
   }
