@@ -5,12 +5,12 @@ BUILD_DIR=build
 
 case "$1" in
     clean)
-        echo "🧹 Limpando build..."
+        echo " Clean build..."
         rm -rf "$BUILD_DIR"
         ;;
     Debug|Release|"")
-        BUILD_TYPE=${1:-Debug}
-        echo "🔧 Build type: $BUILD_TYPE"
+        BUILD_TYPE=${1:-Release}
+        echo " Build type: $BUILD_TYPE"
         cmake -S . -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE="$BUILD_TYPE"
         cmake --build "$BUILD_DIR" -j"$(nproc)"
         ;;
