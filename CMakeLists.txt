@@ -15,6 +15,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_C_FLAGS_DEBUG "-g3 -O0 -fno-omit-frame-pointer" CACHE STRING "" FORCE)
 #set(CMAKE_C_FLAGS_RELEASE "-O3 -DNDEBUG" CACHE STRING "" FORCE)
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -march=native")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -g -fno-omit-frame-pointer")
 
 add_executable(${EXECUTABLE_NAME}
     src/main.c
@@ -27,16 +28,24 @@ add_executable(${EXECUTABLE_NAME}
 )
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(YAJL REQUIRED yajl)
-target_include_directories(${EXECUTABLE_NAME} PRIVATE ${YAJL_INCLUDE_DIRS})
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE ${YAJL_LIB})
 
-find_package(PkgConfig REQUIRED)
+pkg_check_modules(YAJL REQUIRED yajl)
 pkg_check_modules(GLIB REQUIRED glib-2.0)
 
-target_include_directories(${EXECUTABLE_NAME} PRIVATE ${GLIB_INCLUDE_DIRS})
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE ${GLIB_LIBRARIES})
-target_compile_options(${EXECUTABLE_NAME} PRIVATE ${GLIB_CFLAGS_OTHER})
+target_include_directories(${EXECUTABLE_NAME} PRIVATE
+    ${YAJL_INCLUDE_DIRS}
+    ${GLIB_INCLUDE_DIRS}
+)
+
+target_compile_options(${EXECUTABLE_NAME} PRIVATE
+    ${YAJL_CFLAGS_OTHER}
+    ${GLIB_CFLAGS_OTHER}
+)
+
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE
+    ${YAJL_LIBRARIES}
+    ${GLIB_LIBRARIES}
+)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_options(${EXECUTABLE_NAME} PRIVATE
@@ -48,6 +57,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     )
 endif()
 
+add_compile_definitions(_POSIX_C_SOURCE=200809L)
+
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3")
