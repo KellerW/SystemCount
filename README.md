@@ -20,7 +20,7 @@ Designed for efficiency, low memory footprint, and full compliance with modern C
 ---
 
 ## Architecture Overview
-
+´´´
 src/
 ├── main.c              → Entry point, command-line handling and orchestration
 ├── cmdline.c/.h        → CLI parser (getopt-style)
@@ -29,7 +29,7 @@ src/
 ├── model_counter.c/.h  → Hash table-based model counting
 ├── arena_alloc.c/.h    → Custom allocator for YAJL
 └── error.c/.h          → Error codes and basic error handling
-
+´´´
 ---
 
 ## Build Instructions
