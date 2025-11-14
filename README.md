@@ -39,14 +39,14 @@ src/
 ### Prerequisites
 
 Ubuntu/Debian example:
-
+```bash
 sudo apt install build-essential cmake pkg-config libyajl-dev libglib2.0-dev
-
+```
 ### Build (Debug or Release)
-
+```bash
 ./build.sh Debug    # For debugging (ASan + UBSan)
 ./build.sh Release  # Optimized build (-O3 -march=native)
-
+```
 Build artifacts are generated in the `build/` directory.
 
 ---
@@ -54,25 +54,25 @@ Build artifacts are generated in the `build/` directory.
 ## Usage
 
 ### Read from file
-
+```bash
 ./App -i big.json
-
+```
 ### Read from stdin
-
+```bash
 cat big.json | ./App
-
+```
 ### Enable verbose mode
-
+```bash
 ./App -v -i big.json
-
+```
 ### Example output
-
+```bash
 33329611  SCSI3HD
 33345174  SSDLP2
 33328579  SSDF1
 33332954  RDV2
 ...
-
+```
 ---
 
 ## Implementation Notes
@@ -96,30 +96,30 @@ cat big.json | ./App
 ## Testing & Profiling
 
 ### Test with a small JSON file
-
+```bash
 echo '{"items":[{"model":"A"},{"model":"B"},{"model":"A"}]}' > test.json
 ./build/App -i test.json
-
+```
 **Expected output:**
 2  A
 1  B
 
 ### Performance profiling (with gprof)
-
+```bash
 cmake -S . -B build-prof -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS_RELEASE="-pg"
 cmake --build build-prof -j$(nproc)
 cd build-prof
 /usr/bin/time -v ./App -i ../bigf.json
 gprof ./App gmon.out > profile.txt
-
+```
 Alternatively:
-
+```bash
 cmake -S . -B build-prof \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_C_FLAGS_RELEASE="-pg"
 
 cmake --build build-prof -j"$(nproc)"
-
+```
 ---
 
 ## Continuous Integration (Optional)
