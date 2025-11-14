@@ -30,7 +30,7 @@ src/
 ├── model_counter.c/.h  -> Hash table-based model counting
 ├── arena_alloc.c/.h    -> Custom allocator for YAJL
 └── error.c/.h          -> Error codes and basic error handling
-
+```
 
 ---
 
