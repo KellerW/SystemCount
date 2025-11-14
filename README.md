@@ -101,9 +101,10 @@ echo '{"items":[{"model":"A"},{"model":"B"},{"model":"A"}]}' > test.json
 ./build/App -i test.json
 ```
 **Expected output:**
+```bash
 2  A
 1  B
-
+```
 ### Performance profiling (with gprof)
 ```bash
 cmake -S . -B build-prof -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS_RELEASE="-pg"
@@ -124,7 +125,7 @@ cmake --build build-prof -j"$(nproc)"
 
 ## Continuous Integration (Optional)
 
-Example GitHub Actions workflow (.github/workflows/ci.yml):
+Example GitHub Actions workflow (`.github/workflows/ci.yml`):
 
 (name, yaml content omitted for brevity)
 
