@@ -20,16 +20,15 @@ Designed for efficiency, low memory footprint, and full compliance with modern C
 ---
 
 ## Architecture Overview
-´´´
 src/
-├── main.c              → Entry point, command-line handling and orchestration
-├── cmdline.c/.h        → CLI parser (getopt-style)
-├── log.c/.h            → Logging system with levels and timestamps
-├── json_parser.c/.h    → Streaming parser callbacks using YAJL
-├── model_counter.c/.h  → Hash table-based model counting
-├── arena_alloc.c/.h    → Custom allocator for YAJL
-└── error.c/.h          → Error codes and basic error handling
-´´´
+├── main.c              – Entry point, command-line handling and orchestration
+├── cmdline.c/.h        – Command-line parser (getopt-style)
+├── log.c/.h            – Logging system with levels and timestamps
+├── json_parser.c/.h    – Streaming JSON parser callbacks (YAJL)
+├── model_counter.c/.h  – Hash table-based model counting
+├── arena_alloc.c/.h    – Custom allocator used by YAJL
+└── error.c/.h          – Error codes and basic error handling
+
 ---
 
 ## Build Instructions
